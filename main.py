@@ -1,6 +1,7 @@
-
 import pyodbc
 import pandas as pd
+
+import dict_sql_query as sql
 
 conn = pyodbc.connect(
     r'Driver=ODBC Driver 17 for SQL Server;'
@@ -8,8 +9,6 @@ conn = pyodbc.connect(
     r'Trusted_Connection=yes;'
 )
 
-qry = '''SELECT TOP 5 * FROM H2793.dbo.claim_masters_v'''
+df_prov = pd.read_sql(sql.qry_provider, conn)
+df_memb = pd.read_sql(sql.qry_member, conn)
 
-df = pd.read_sql(qry, conn)
-
-print(df.head())
