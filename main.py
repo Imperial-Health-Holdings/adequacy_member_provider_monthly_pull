@@ -8,22 +8,28 @@ import configparser
 config = configparser.ConfigParser()
 config.read('config.ini')
 
-# initialization
-path_export = config['PATH']['path_export']
+def adequacy_member_monthly_pull():
+    # initialization
+    path_export = config['PATH']['path_export']
 
-year_month = str(datetime.now().year) + str(datetime.now().month)
-path_export_member = os.path.join(path_export, f'member_{year_month}.csv')
-path_export_provider = os.path.join(path_export, f'provider_{year_month}.csv')
+    year_month = str(datetime.now().year) + str(datetime.now().month)
+    path_export_provider = os.path.join(path_export, f'provider_{year_month}.xlsx')
+    path_export_member = os.path.join(path_export, f'member_{year_month}.xlsx')
 
-# establish SQL server connection
-conn = pyodbc.connect(
-    r'Driver=ODBC Driver 17 for SQL Server;'
-    r'SERVER=ihpas-ezcaprpt;'
-    r'Trusted_Connection=yes;'
-)
+    # establish SQL server connection
+    conn = pyodbc.connect(
+        r'Driver=ODBC Driver 17 for SQL Server;'
+        r'SERVER=ihpas-ezcaprpt;'
+        r'Trusted_Connection=yes;'
+    )
 
-# read data from SQL server
-df_prov = pd.read_sql(sql.qry_provider, conn)
-df_memb = pd.read_sql(sql.qry_member, conn)
+    # read data from SQL server
+    df_prov = pd.read_sql(sql.qry_provider, conn)
+    df_memb = pd.read_sql(sql.qry_member, conn)
 
-# export data
+    # export data
+    df_prov.to_excel(path_export_provider, index=False, engine='xlsxwriter')
+    df_memb.to_excel(path_export_member, index=False, engine='xlsxwriter')
+
+if __name__ == '__main__':
+    adequacy_member_monthly_pull()
