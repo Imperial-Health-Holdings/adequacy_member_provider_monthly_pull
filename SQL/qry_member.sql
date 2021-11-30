@@ -7,7 +7,6 @@
 	Report is ran the 1st day of every month and dropped to a dedicated folder (handled by Python).
 */
 
-
 SELECT        
 	mc.MEMB_KEYID, 
 	mc.MEMB_MPI_NO, 
