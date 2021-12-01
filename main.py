@@ -1,19 +1,26 @@
 import os
 import pyodbc
 import pandas as pd
+import configparser
 from datetime import datetime
 import time
 import dict_sql_query as sql
 from mailer import mailer
 
-import configparser
-config = configparser.ConfigParser()
-config.read('config.ini')
-
-config_mailer = configparser.ConfigParser()
-config_mailer.read('./mailer/config_mailer.ini')
 
 def adequacy_member_monthly_pull():
+    # set directory to current file location
+    abspath = os.path.abspath(__file__)
+    dname = os.path.dirname(abspath)
+    os.chdir(dname)
+
+    # set up config file
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+
+    config_mailer = configparser.ConfigParser()
+    config_mailer.read('./mailer/config_mailer.ini')
+
     # initialization
     path_export = config['PATH']['path_export']
 
