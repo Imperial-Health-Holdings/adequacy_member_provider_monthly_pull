@@ -33,3 +33,4 @@ def adequacy_member_monthly_pull():
 
 if __name__ == '__main__':
     adequacy_member_monthly_pull()
+    
