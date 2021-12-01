@@ -4,6 +4,7 @@ import pandas as pd
 from datetime import datetime
 import time
 import dict_sql_query as sql
+import mailer
 
 import configparser
 config = configparser.ConfigParser()
@@ -16,6 +17,9 @@ def adequacy_member_monthly_pull():
     year_month = str(datetime.now().year) + str(datetime.now().month)
     path_export_provider = os.path.join(path_export, f'provider_{year_month}.xlsx')
     path_export_member = os.path.join(path_export, f'member_{year_month}.xlsx')
+
+    subject = config['MAILER']['subject']
+    text = config['MAILER']['text']
 
     time0 = time.time()
 
@@ -35,6 +39,9 @@ def adequacy_member_monthly_pull():
     # export data
     df_prov.to_excel(path_export_provider, index=False, engine='xlsxwriter')
     df_memb.to_excel(path_export_member, index=False, engine='xlsxwriter')
+
+    # send report notification
+    #mailer.send_report_notification()
 
     time_lapse = round(time.time() - time0, 2)
     print(f'Process completed.   Time Lapsed: {time_lapse}')
