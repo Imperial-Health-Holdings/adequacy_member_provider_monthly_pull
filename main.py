@@ -28,8 +28,9 @@ def adequacy_member_monthly_pull():
     path_export_provider = os.path.join(path_export, f'provider_{year_month}.xlsx')
     path_export_member = os.path.join(path_export, f'member_{year_month}.xlsx')
 
+    char_month = datetime.now().strftime('%b')
     recipient = config_mailer['RECIPIENT']['recipient']
-    subject = config_mailer['MAILER']['subject']
+    subject = config_mailer['MAILER']['subject'] + ' ' + char_month
     text = config_mailer['MAILER']['text']
 
     time0 = time.time()
