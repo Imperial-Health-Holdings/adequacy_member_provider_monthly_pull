@@ -4,14 +4,14 @@ import pandas as pd
 from datetime import datetime
 import time
 import dict_sql_query as sql
-import mailer
+from mailer import mailer
 
 import configparser
 config = configparser.ConfigParser()
 config.read('config.ini')
 
 config_mailer = configparser.ConfigParser()
-config_mailer.read('config_mailer.ini')
+config_mailer.read('./mailer/config_mailer.ini')
 
 def adequacy_member_monthly_pull():
     # initialization

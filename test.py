@@ -4,14 +4,14 @@ import pandas as pd
 from datetime import datetime
 import time
 import dict_sql_query as sql
-import mailer
+from mailer import mailer
 
 import configparser
 config = configparser.ConfigParser()
 config.read('config.ini')
 
 config_mailer = configparser.ConfigParser()
-config_mailer.read('config_mailer.ini')
+config_mailer.read('./mailer/config_mailer.ini')
 
 def adequacy_member_monthly_pull():
     # initialization
@@ -34,17 +34,15 @@ def adequacy_member_monthly_pull():
         r'Trusted_Connection=yes;'
     )
 
-    print('===== Adequacy Monthly Pull =====')
+    print('===== Adequacy Month Pull =====')
 
     # read data from SQL server
     print('\tloading data from SQL...')
     df_prov = pd.read_sql(sql.qry_provider, conn)
-    df_memb = pd.read_sql(sql.qry_member, conn)
 
     # export data
     print('\twriting to Excel...')
     df_prov.head(3).to_excel(path_export_provider, index=False, engine='xlsxwriter')
-    df_memb.head(3).to_excel(path_export_member, index=False, engine='xlsxwriter')
 
     # send report notification
     print('\tsending automated message...')
