@@ -2,6 +2,7 @@ import os
 import pyodbc
 import pandas as pd
 from datetime import datetime
+import time
 import dict_sql_query as sql
 
 import configparser
@@ -16,12 +17,16 @@ def adequacy_member_monthly_pull():
     path_export_provider = os.path.join(path_export, f'provider_{year_month}.xlsx')
     path_export_member = os.path.join(path_export, f'member_{year_month}.xlsx')
 
+    time0 = time.time()
+
     # establish SQL server connection
     conn = pyodbc.connect(
         r'Driver=ODBC Driver 17 for SQL Server;'
         r'SERVER=ihpas-ezcaprpt;'
         r'Trusted_Connection=yes;'
     )
+
+    print('===== Adequacy Month Pull =====')
 
     # read data from SQL server
     df_prov = pd.read_sql(sql.qry_provider, conn)
@@ -30,6 +35,9 @@ def adequacy_member_monthly_pull():
     # export data
     df_prov.to_excel(path_export_provider, index=False, engine='xlsxwriter')
     df_memb.to_excel(path_export_member, index=False, engine='xlsxwriter')
+
+    time_lapse = round(time.time() - time0, 2)
+    print(f'Process completed.   Time Lapsed: {time_lapse}')
 
 if __name__ == '__main__':
     adequacy_member_monthly_pull()
