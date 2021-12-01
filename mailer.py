@@ -12,8 +12,8 @@ def get_recipient_list(recipient:str) -> str:
         abc@imperialhealthholdings.com; xyz@imperialhealthholdings.com
     '''
     recipient_list = [i.strip() for i in recipient.splitlines()]
-    recipient_list = filter(None, item) # incase there's empty line, filter them out
-    recipient_list = '; '.join(item)
+    recipient_list = filter(None, recipient_list) # incase there's empty line, filter them out
+    recipient_list = '; '.join(recipient_list)
 
     return recipient_list
 
