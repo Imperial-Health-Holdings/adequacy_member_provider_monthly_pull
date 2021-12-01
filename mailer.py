@@ -1,6 +1,6 @@
 import win32com.client as win32
 
-def send_report_notification(send_to, subject, body):
+def send_report_notification(recipient:str, subject:str, text:str) -> None:
     '''
     This function sends email using local Outlook account.
     
@@ -8,17 +8,13 @@ def send_report_notification(send_to, subject, body):
     For example, 
         Joe.smith@imperialhealthholdings.com; James.johnson@imperialhealthholdings.com
     '''
-
     outlook = win32.Dispatch('outlook.application')
     mail = outlook.CreateItem(0)
 
-    mail.To = 'henry.cheng@imperialhealthholdings.com'
-    mail.Subject = 'Meail Tester from Python'
-    mail.Body = 'Testing message'
+    mail.To = recipient
+    mail.Subject = subject
+    mail.Body = text
     #mail.HTMLBody = '<h2>HTML Message body</h2>'
-
-
-    print('Process complete.')
 
     # To attach a file to the email (optional):
     if False:
@@ -26,3 +22,6 @@ def send_report_notification(send_to, subject, body):
         mail.Attachments.Add(attachment)
 
     mail.Send()
+
+if __name__ == '__main__':
+    None
