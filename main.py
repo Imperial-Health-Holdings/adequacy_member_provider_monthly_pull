@@ -37,18 +37,21 @@ def adequacy_member_monthly_pull():
     print('===== Adequacy Month Pull =====')
 
     # read data from SQL server
+    print('\tloading data from SQL...')
     df_prov = pd.read_sql(sql.qry_provider, conn)
     df_memb = pd.read_sql(sql.qry_member, conn)
 
     # export data
+    print('\twriting to Excel...')
     df_prov.to_excel(path_export_provider, index=False, engine='xlsxwriter')
     df_memb.to_excel(path_export_member, index=False, engine='xlsxwriter')
 
     # send report notification
+    print('\tsending automated message...')
     mailer.send_report_notification(recipient, subject, text)
 
     time_lapse = round(time.time() - time0, 2)
-    print(f'Process completed.   Time Lapsed: {time_lapse}')
+    print(f'\nProcess completed.   Time Lapsed: {time_lapse}')
 
 if __name__ == '__main__':
     adequacy_member_monthly_pull()
