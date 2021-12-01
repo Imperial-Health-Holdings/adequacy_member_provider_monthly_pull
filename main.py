@@ -41,7 +41,7 @@ def adequacy_member_monthly_pull():
         r'Trusted_Connection=yes;'
     )
 
-    print('===== Adequacy Month Pull =====')
+    print('===== Adequacy Monthly Pull =====')
 
     # read data from SQL server
     print('\tloading data from SQL...')
