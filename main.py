@@ -10,6 +10,9 @@ import configparser
 config = configparser.ConfigParser()
 config.read('config.ini')
 
+config_mailer = configparser.ConfigParser()
+config_mailer.read('config_mailer.ini')
+
 def adequacy_member_monthly_pull():
     # initialization
     path_export = config['PATH']['path_export']
@@ -18,8 +21,9 @@ def adequacy_member_monthly_pull():
     path_export_provider = os.path.join(path_export, f'provider_{year_month}.xlsx')
     path_export_member = os.path.join(path_export, f'member_{year_month}.xlsx')
 
-    subject = config['MAILER']['subject']
-    text = config['MAILER']['text']
+    recipient = config_mailer['RECIPIENT']['recipient']
+    subject = config_mailer['MAILER']['subject']
+    text = config_mailer['MAILER']['text']
 
     time0 = time.time()
 
@@ -41,7 +45,7 @@ def adequacy_member_monthly_pull():
     df_memb.to_excel(path_export_member, index=False, engine='xlsxwriter')
 
     # send report notification
-    #mailer.send_report_notification()
+    mailer.send_report_notification(recipient, subject, text)
 
     time_lapse = round(time.time() - time0, 2)
     print(f'Process completed.   Time Lapsed: {time_lapse}')
